@@ -1,12 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import reactLogo from "./assets/react.svg";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fn = async () => {
+      await fetch("/api/hello")
+        .then((res) => res.json())
+        .then((res) => setData(res));
+    };
+
+    fn();
+  }, []);
 
   return (
     <div className="App">
+      {data && JSON.stringify(data)}
       <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
@@ -28,7 +40,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
